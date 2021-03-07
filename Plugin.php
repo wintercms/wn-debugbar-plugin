@@ -1,4 +1,4 @@
-<?php namespace RainLab\Debugbar;
+<?php namespace Winter\Debugbar;
 
 use App;
 use Event;
@@ -30,11 +30,11 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name'        => 'rainlab.debugbar::lang.plugin.name',
-            'description' => 'rainlab.debugbar::lang.plugin.description',
-            'author'      => 'RainLab',
+            'name'        => 'winter.debugbar::lang.plugin.name',
+            'description' => 'winter.debugbar::lang.plugin.description',
+            'author'      => 'Winter',
             'icon'        => 'icon-bug',
-            'homepage'    => 'https://github.com/rainlab/debugbar-plugin'
+            'homepage'    => 'https://github.com/wintercms/wn-debugbar-plugin'
         ];
     }
 
@@ -44,10 +44,10 @@ class Plugin extends PluginBase
     public function boot()
     {
         // Configure the debugbar
-        Config::set('debugbar', Config::get('rainlab.debugbar::config'));
+        Config::set('debugbar', Config::get('winter.debugbar::config'));
 
         // Service provider
-        App::register(\RainLab\Debugbar\Classes\ServiceProvider::class);
+        App::register(\Winter\Debugbar\Classes\ServiceProvider::class);
 
         // Register alias
         $alias = AliasLoader::getInstance();
@@ -55,7 +55,7 @@ class Plugin extends PluginBase
 
         // Register middleware
         if (Config::get('app.debugAjax', false)) {
-            $this->app['Illuminate\Contracts\Http\Kernel']->pushMiddleware('\RainLab\Debugbar\Middleware\InterpretsAjaxExceptions');
+            $this->app['Illuminate\Contracts\Http\Kernel']->pushMiddleware('\Winter\Debugbar\Middleware\InterpretsAjaxExceptions');
         }
 
         // Add styling
@@ -87,7 +87,7 @@ class Plugin extends PluginBase
          * Register asset bundles
          */
         CombineAssets::registerCallback(function ($combiner) {
-            $combiner->registerBundle('$/rainlab/debugbar/assets/css/debugbar.less');
+            $combiner->registerBundle('$/winter/debugbar/assets/css/debugbar.less');
         });
     }
 
@@ -99,14 +99,14 @@ class Plugin extends PluginBase
     public function registerPermissions()
     {
         return [
-            'rainlab.debugbar.access_debugbar' => [
-                'tab' => 'rainlab.debugbar::lang.plugin.name',
-                'label' => 'rainlab.debugbar::lang.plugin.access_debugbar',
+            'winter.debugbar.access_debugbar' => [
+                'tab' => 'winter.debugbar::lang.plugin.name',
+                'label' => 'winter.debugbar::lang.plugin.access_debugbar',
                 'roles' => UserRole::CODE_DEVELOPER,
             ],
-            'rainlab.debugbar.access_stored_requests' => [
-                'tab' => 'rainlab.debugbar::lang.plugin.name',
-                'label' => 'rainlab.debugbar::lang.plugin.access_stored_requests',
+            'winter.debugbar.access_stored_requests' => [
+                'tab' => 'winter.debugbar::lang.plugin.name',
+                'label' => 'winter.debugbar::lang.plugin.access_stored_requests',
                 'roles' => UserRole::CODE_DEVELOPER,
             ],
         ];

@@ -1,4 +1,4 @@
-<?php namespace RainLab\Debugbar\Middleware;
+<?php namespace Winter\Debugbar\Middleware;
 
 use Config;
 use Request;
@@ -37,8 +37,8 @@ class InjectDebugbar extends BaseMiddleware
 
         $user = BackendAuth::getUser();
 
-        if ((!$user || !$user->hasAccess('rainlab.debugbar.access_stored_requests')) &&
-            !Config::get('rainlab.debugbar::store_all_requests', false)) {
+        if ((!$user || !$user->hasAccess('winter.debugbar.access_stored_requests')) &&
+            !Config::get('winter.debugbar::store_all_requests', false)) {
             // Disable stored requests
             // Note: this will completely disable storing requests from any users
             // without the required permission. If that functionality is desired again
@@ -48,8 +48,8 @@ class InjectDebugbar extends BaseMiddleware
 
         // Modify the response to add the Debugbar if allowed
         if (
-            ($user && $user->hasAccess('rainlab.debugbar.access_debugbar')) ||
-            Config::get('rainlab.debugbar::allow_public_access', false)
+            ($user && $user->hasAccess('winter.debugbar.access_debugbar')) ||
+            Config::get('winter.debugbar::allow_public_access', false)
         ) {
             $this->debugbar->modifyResponse($request, $response);
         }

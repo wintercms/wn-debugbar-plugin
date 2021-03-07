@@ -20,12 +20,12 @@ return [
      |--------------------------------------------------------------------------
      |
      | By default the debugbar requires an authenticated backend user with the
-     | rainlab.debugbar.access_debugbar permission in order to view the debugbar
+     | winter.debugbar.access_debugbar permission in order to view the debugbar
      |
      | Set this to true to bypass that authentication check.
      |
      | >**NOTE**: There is no way to bypass the permission check that controls
-     | access to viewing stored requests (rainlab.debugbar.access_stored_requests)
+     | access to viewing stored requests (winter.debugbar.access_stored_requests)
      | as that can be abused to takeover accounts and steal sensitive information.
      |
      */
@@ -38,7 +38,7 @@ return [
      |--------------------------------------------------------------------------
      |
      | For security reasons the debugbar will only store requests by a
-     | backend user with the rainlab.debugbar.access_debugbar permission.
+     | backend user with the winter.debugbar.access_debugbar permission.
      |
      | If you are not concerned about security (for instance, you are in
      | a local environment) you can set this to true to log all requests.

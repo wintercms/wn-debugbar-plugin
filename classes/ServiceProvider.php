@@ -1,9 +1,9 @@
-<?php namespace RainLab\Debugbar\Classes;
+<?php namespace Winter\Debugbar\Classes;
 
 use Illuminate\Contracts\Http\Kernel;
 use Barryvdh\Debugbar\ServiceProvider as BaseServiceProvider;
 
-use RainLab\Debugbar\Middleware\InjectDebugbar;
+use Winter\Debugbar\Middleware\InjectDebugbar;
 
 class ServiceProvider extends BaseServiceProvider
 {
