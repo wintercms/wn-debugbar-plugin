@@ -34,7 +34,8 @@ class Plugin extends PluginBase
             'description' => 'winter.debugbar::lang.plugin.description',
             'author'      => 'Winter',
             'icon'        => 'icon-bug',
-            'homepage'    => 'https://github.com/wintercms/wn-debugbar-plugin'
+            'homepage'    => 'https://github.com/wintercms/wn-debugbar-plugin',
+            'replaces'    => 'RainLab.Debugbar'
         ];
     }
 
