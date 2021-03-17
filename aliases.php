@@ -8,9 +8,9 @@ use Winter\Storm\Support\ClassLoader;
  */
 $aliases = [
     // Regular aliases
-    Winter\Debugbar\Plugin::class                    => 'RainLab\Debugbar\Plugin',
-    Winter\Debugbar\Classes\ServiceProvider::class   => 'RainLab\Debugbar\Classes\ServiceProvider',
-    Winter\Debugbar\Middleware\InjectDebugbar::class => 'RainLab\Debugbar\Middleware\InjectDebugbar',
+    Winter\Debugbar\Plugin::class                    => RainLab\Debugbar\Plugin::class,
+    Winter\Debugbar\Classes\ServiceProvider::class   => RainLab\Debugbar\Classes\ServiceProvider::class,
+    Winter\Debugbar\Middleware\InjectDebugbar::class => RainLab\Debugbar\Middleware\InjectDebugbar::class,
 ];
 
 app(ClassLoader::class)->addAliases($aliases);
