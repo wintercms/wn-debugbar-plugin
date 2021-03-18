@@ -22,7 +22,7 @@
         "barryvdh/laravel-debugbar": "~3.0"
     },
     "extra": {
-        "installer-name": "user",
+        "installer-name": "debugbar",
         "laravel": {
             "dont-discover": [
                 "barryvdh/laravel-debugbar"
