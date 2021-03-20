@@ -1,12 +1,12 @@
-<?php namespace RainLab\Debugbar\Middleware;
+<?php namespace Winter\Debugbar\Middleware;
 
 use Request;
 use Closure;
 use Response;
 use Exception;
 use Illuminate\Foundation\Application;
-use October\Rain\Exception\ErrorHandler;
-use October\Rain\Exception\AjaxException;
+use Winter\Storm\Exception\ErrorHandler;
+use Winter\Storm\Exception\AjaxException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class InterpretsAjaxExceptions

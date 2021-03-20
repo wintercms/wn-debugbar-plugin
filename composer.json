@@ -1,10 +1,10 @@
 {
-    "name": "rainlab/debugbar-plugin",
-    "description": "Debugbar integration for OctoberCMS.",
-    "homepage": "https://github.com/rainlab/debugbar-plugin",
-    "type": "october-plugin",
+    "name": "winter/debugbar-plugin",
+    "description": "Debugbar integration for Winter CMS.",
+    "homepage": "https://github.com/wintercms/wn-debugbar-plugin",
+    "type": "winter-plugin",
     "license": "MIT",
-    "keywords": ["october", "debugbar"],
+    "keywords": ["wintercms", "debugbar"],
     "authors": [
         {
             "name": "Scott Bedard",
@@ -13,7 +13,7 @@
         },
         {
             "name": "Luke Towers",
-            "email": "octobercms@luketowers.ca",
+            "email": "wintercms@luketowers.ca",
             "homepage": "https://luketowers.ca",
             "role": "Maintainer"
         }
@@ -22,6 +22,7 @@
         "barryvdh/laravel-debugbar": "~3.0"
     },
     "extra": {
+        "installer-name": "debugbar",
         "laravel": {
             "dont-discover": [
                 "barryvdh/laravel-debugbar"
