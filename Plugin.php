@@ -63,7 +63,7 @@ class Plugin extends PluginBase
         $addResources = function ($controller) {
             $debugBar = $this->app->make('Barryvdh\Debugbar\LaravelDebugbar');
             if ($debugBar->isEnabled()) {
-                $controller->addCss(url(Config::get('cms.pluginsPath', '/plugins') . '/rainlab/debugbar/assets/css/debugbar.css'));
+                $controller->addCss(url(Config::get('cms.pluginsPath', '/plugins') . '/winter/debugbar/assets/css/debugbar.css'));
             }
         };
         Event::listen('backend.page.beforeDisplay', $addResources, PHP_INT_MAX);

@@ -1,10 +1,10 @@
 {
-    "name": "winter/debugbar-plugin",
-    "description": "Debugbar integration for Winter CMS.",
-    "homepage": "https://github.com/wintercms/wn-debugbar-plugin",
+    "name": "winter/wn-debugbar-plugin",
     "type": "winter-plugin",
-    "license": "MIT",
+    "description": "DebugBar integration for Winter CMS.",
+    "homepage": "https://github.com/wintercms/wn-debugbar-plugin",
     "keywords": ["wintercms", "debugbar"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Scott Bedard",
@@ -12,13 +12,19 @@
             "role": "Creator"
         },
         {
-            "name": "Luke Towers",
-            "email": "wintercms@luketowers.ca",
-            "homepage": "https://luketowers.ca",
+            "name": "Winter CMS Maintainers",
+            "homepage": "https://wintercms.com",
             "role": "Maintainer"
         }
     ],
+    "support": {
+        "issues": "https://github.com/wintercms/wn-debugbar-plugin/issues",
+        "discord": "https://discord.gg/D5MFSPH6Ux",
+        "source": "https://github.com/wintercms/wn-debugbar-plugin"
+    },
     "require": {
+        "php": ">=7.0",
+        "composer/installers": "~1.0",
         "barryvdh/laravel-debugbar": "~3.0"
     },
     "extra": {
