@@ -13,3 +13,4 @@
 "3.1.0": Important security update and improved styling.
 "3.1.1": Added new "store all requests" config option. Added Slovenian translations.
 "4.0.0": "Switched vendor to Winter from RainLab"
+"4.0.1": Adds new collectors for Twig, CMS and Backend. Disables event logging by default.
