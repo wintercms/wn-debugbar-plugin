@@ -207,7 +207,7 @@ div.phpdebugbar-openhandler .phpdebugbar-openhandler-header a{line-height:1}
 .phpdebugbar select,
 .phpdebugbar-openhandler select{border-radius:5px}
 .phpdebugbar keygen::-webkit-keygen-select,
-.phpdebugbar-openhandler keygen::-webkit-keygen-select{margin:0px}
+.phpdebugbar-openhandler keygen::-webkit-keygen-select{margin:0}
 .phpdebugbar textarea,
 .phpdebugbar-openhandler textarea{-webkit-appearance:textarea;background-color:white;border:1px solid;-webkit-rtl-ordering:logical;-webkit-user-select:text;flex-direction:column;resize:auto;cursor:auto;padding:2px;white-space:pre-wrap;word-wrap:break-word}
 .phpdebugbar ::-webkit-input-placeholder,

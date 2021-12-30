@@ -63,7 +63,7 @@ class Plugin extends PluginBase
 
         // Register middleware
         if (Config::get('app.debug_ajax', Config::get('app.debugAjax', false))) {
-            $this->app[HttpKernelContract::class]->pushMiddleware(\RainLab\Debugbar\Middleware\InterpretsAjaxExceptions::class);
+            $this->app[HttpKernelContract::class]->pushMiddleware(\Winter\Debugbar\Middleware\InterpretsAjaxExceptions::class);
         }
 
         $this->registerResourceInjection();
@@ -87,7 +87,7 @@ class Plugin extends PluginBase
          * Register asset bundles
          */
         CombineAssets::registerCallback(function ($combiner) {
-            $combiner->registerBundle('$/rainlab/debugbar/assets/less/debugbar.less');
+            $combiner->registerBundle('$/winter/debugbar/assets/less/debugbar.less');
         });
     }
 
@@ -181,7 +181,7 @@ class Plugin extends PluginBase
         $addResources = function($controller) {
             $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
             if ($debugBar->isEnabled()) {
-                $controller->addCss('/plugins/rainlab/debugbar/assets/css/debugbar.css');
+                $controller->addCss('/plugins/winter/debugbar/assets/css/debugbar.css');
             }
         };
 
