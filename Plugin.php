@@ -5,6 +5,7 @@ use Event;
 use Config;
 use Backend\Models\UserRole;
 use Backend\Classes\Controller as BackendController;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Cms\Classes\Controller as CmsController;
 use Cms\Classes\Layout;
 use Cms\Classes\Page;
@@ -59,7 +60,7 @@ class Plugin extends PluginBase
 
         // Register alias
         $alias = AliasLoader::getInstance();
-        $alias->alias('Debugbar', \Barryvdh\Debugbar\Facade::class);
+        $alias->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
 
         // Register middleware
         if (Config::get('app.debug_ajax', Config::get('app.debugAjax', false))) {
@@ -110,7 +111,7 @@ class Plugin extends PluginBase
         /** @var \Barryvdh\Debugbar\LaravelDebugbar $debugBar */
         $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
 
-        Event::listen('cms.page.beforeDisplay', function(CmsController $controller, $url, ?Page $page) use ($debugBar) {
+        Event::listen('cms.page.beforeDisplay', function (CmsController $controller, $url, ?Page $page) use ($debugBar) {
             if ($page) {
                 $collector = new CmsCollector($controller, $url, $page);
                 if (!$debugBar->hasCollector($collector->getName())) {
@@ -119,7 +120,7 @@ class Plugin extends PluginBase
             }
         });
 
-        Event::listen('cms.page.initComponents', function(CmsController $controller, ?Page $page, ?Layout $layout) use ($debugBar) {
+        Event::listen('cms.page.initComponents', function (CmsController $controller, ?Page $page, ?Layout $layout) use ($debugBar) {
             if ($page) {
                 $collector = new ComponentsCollector($controller, $page, $layout);
                 if (!$debugBar->hasCollector($collector->getName())) {
@@ -178,16 +179,43 @@ class Plugin extends PluginBase
     protected function registerResourceInjection()
     {
         // Add styling
-        $addResources = function($controller) {
+        $addResources = function ($controller) {
+            $renderer = Debugbar::getJavascriptRenderer();
+            [$css, $js] = $renderer->getAssets();
+
+            // Switch base Debugbar CSS out with our own
+            foreach ($css as $key => $file) {
+                if (str_ends_with($file, 'vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css')) {
+                    $css[$key] = __DIR__ . '/assets/css/debugbar.css';
+                    continue;
+                }
+                if (str_contains($file, 'vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar-dark-mode')) {
+                    unset($css[$key]);
+                    continue;
+                }
+            }
+
             $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
             if ($debugBar->isEnabled()) {
-                $controller->addCss('/plugins/winter/debugbar/assets/css/debugbar.css');
+                $controller->addCss($css);
+                $controller->addJs($js);
             }
         };
 
         Event::listen('backend.page.beforeDisplay', $addResources, PHP_INT_MAX);
-
         Event::listen('cms.page.beforeDisplay', $addResources, PHP_INT_MAX);
+
+        Event::listen('cms.page.postprocess', function ($controller, $url, $page, $dataHolder) {
+            $renderer = Debugbar::getJavascriptRenderer();
+            $widget = $renderer->render();
+            $pos = strripos($dataHolder->content, '</body>');
+
+            if ($pos !== false) {
+                $dataHolder->content = substr($dataHolder->content, 0, $pos) . $widget . substr($dataHolder->content, $pos);
+            } else {
+                $dataHolder->content .= $widget;
+            }
+        });
     }
 
     /**
