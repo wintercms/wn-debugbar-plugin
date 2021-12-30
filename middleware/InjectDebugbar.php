@@ -32,8 +32,7 @@ class InjectDebugbar extends BaseMiddleware
         }
         catch (Exception $e) {
             $response = $this->handleException($request, $e);
-        }
-        catch (Error $error) {
+        } catch (Error $error) {
             $e = new FatalThrowableError($error);
             $response = $this->handleException($request, $e);
         }
