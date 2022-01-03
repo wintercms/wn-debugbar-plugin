@@ -47,12 +47,10 @@ return [
      | about authentication. WARNING: All stored requests are publicly available without
      | any authentication, so do NOT enable this on an environment that's exposed to the
      | internet.
-
      |
      */
 
     'store_all_requests' => false,
-
 
     /*
      |--------------------------------------------------------------------------

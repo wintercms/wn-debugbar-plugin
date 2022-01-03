@@ -29,11 +29,9 @@ class InjectDebugbar extends BaseMiddleware
         try {
             /** @var \Illuminate\Http\Response $response */
             $response = $next($request);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $response = $this->handleException($request, $e);
-        }
-        catch (Error $error) {
+        } catch (Error $error) {
             $e = new FatalThrowableError($error);
             $response = $this->handleException($request, $e);
         }
