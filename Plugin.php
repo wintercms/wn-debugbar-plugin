@@ -48,7 +48,7 @@ class Plugin extends PluginBase
     }
 
     /**
-     * boot service provider, Twig extensions, and alias facade.
+     * Boots service provider, Twig extensions, and alias facade, and injects collectors and resources.
      */
     public function boot()
     {
@@ -80,20 +80,17 @@ class Plugin extends PluginBase
     }
 
     /**
-     * register the service provider
+     * Registers assets bundles
      */
     public function register()
     {
-        /*
-         * Register asset bundles
-         */
         CombineAssets::registerCallback(function ($combiner) {
             $combiner->registerBundle('$/winter/debugbar/assets/less/debugbar.less');
         });
     }
 
     /**
-     * addGlobalCollectors adds globally available collectors
+     * Add globally available collectors
      */
     public function addGlobalCollectors()
     {
@@ -104,7 +101,7 @@ class Plugin extends PluginBase
     }
 
     /**
-     * addFrontendCollectors used by the frontend only
+     * Add collectors used by the frontend only
      */
     public function addFrontendCollectors()
     {
@@ -138,7 +135,7 @@ class Plugin extends PluginBase
     }
 
     /**
-     * addBackendCollectors used by the backend only
+     * Add collectors used by the Backend only
      */
     public function addBackendCollectors()
     {
@@ -156,7 +153,7 @@ class Plugin extends PluginBase
     }
 
     /**
-     * registerCmsTwigExtensions in the CMS Twig environment
+     * Registers extensions in the CMS Twig environment
      */
     protected function registerCmsTwigExtensions()
     {
@@ -183,7 +180,7 @@ class Plugin extends PluginBase
     }
 
     /**
-     * registerResourceInjection adds styling to the page
+     * Adds styling to the page
      */
     protected function registerResourceInjection()
     {
