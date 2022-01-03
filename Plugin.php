@@ -63,7 +63,7 @@ class Plugin extends PluginBase
         $alias->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
 
         // Register middleware
-        if (Config::get('app.debug_ajax', Config::get('app.debugAjax', false))) {
+        if (Config::get('app.debugAjax', false)) {
             $this->app[HttpKernelContract::class]->pushMiddleware(\Winter\Debugbar\Middleware\InterpretsAjaxExceptions::class);
         }
 
@@ -111,23 +111,30 @@ class Plugin extends PluginBase
         /** @var \Barryvdh\Debugbar\LaravelDebugbar $debugBar */
         $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
 
-        Event::listen('cms.page.beforeDisplay', function (CmsController $controller, $url, ?Page $page) use ($debugBar) {
-            if ($page) {
-                $collector = new CmsCollector($controller, $url, $page);
-                if (!$debugBar->hasCollector($collector->getName())) {
-                    $debugBar->addCollector($collector);
-                }
-            }
-        });
+        if (Config::get('debugbar.collectors.cms', true)) {
+            // Disable route collector as the CMS collector presents this info instead
+            Config::set('debugbar.collectors.route', false);
 
-        Event::listen('cms.page.initComponents', function (CmsController $controller, ?Page $page, ?Layout $layout) use ($debugBar) {
-            if ($page) {
-                $collector = new ComponentsCollector($controller, $page, $layout);
-                if (!$debugBar->hasCollector($collector->getName())) {
-                    $debugBar->addCollector($collector);
+            Event::listen('cms.page.beforeDisplay', function (CmsController $controller, $url, ?Page $page) use ($debugBar) {
+                if ($page) {
+                    $collector = new CmsCollector($controller, $url, $page);
+                    if (!$debugBar->hasCollector($collector->getName())) {
+                        $debugBar->addCollector($collector);
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        if (Config::get('debugbar.collectors.components', true)) {
+            Event::listen('cms.page.initComponents', function (CmsController $controller, ?Page $page, ?Layout $layout) use ($debugBar) {
+                if ($page) {
+                    $collector = new ComponentsCollector($controller, $page, $layout);
+                    if (!$debugBar->hasCollector($collector->getName())) {
+                        $debugBar->addCollector($collector);
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -138,12 +145,14 @@ class Plugin extends PluginBase
         /** @var \Barryvdh\Debugbar\LaravelDebugbar $debugBar */
         $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
 
-        Event::listen('backend.page.beforeDisplay', function (BackendController $controller, $action, array $params) use ($debugBar) {
-            $collector = new BackendCollector($controller, $action, $params);
-            if (!$debugBar->hasCollector($collector->getName())) {
-                $debugBar->addCollector($collector);
-            }
-        });
+        if (Config::get('debugbar.collectors.backend', true)) {
+            Event::listen('backend.page.beforeDisplay', function (BackendController $controller, $action, array $params) use ($debugBar) {
+                $collector = new BackendCollector($controller, $action, $params);
+                if (!$debugBar->hasCollector($collector->getName())) {
+                    $debugBar->addCollector($collector);
+                }
+            });
+        }
     }
 
     /**

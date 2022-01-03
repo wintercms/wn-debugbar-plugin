@@ -174,6 +174,9 @@ return [
         'config'          => false, // Display config settings
         'cache'           => false, // Display cache events
         'models'          => true, // Display models
+        'backend'         => true, // Current route and AJAX handler info for the Backend module
+        'cms'             => true, // Current route, template and AJAX handler info for the CMS module
+        'components'      => true, // CMS component information
     ],
 
     /*
