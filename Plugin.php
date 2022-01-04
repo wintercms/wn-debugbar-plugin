@@ -60,7 +60,7 @@ class Plugin extends PluginBase
 
         // Register alias
         $alias = AliasLoader::getInstance();
-        $alias->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
+        $alias->alias('Debugbar', Debugbar::class);
 
         // Register middleware
         if (Config::get('app.debugAjax', false)) {
@@ -94,10 +94,12 @@ class Plugin extends PluginBase
      */
     public function addGlobalCollectors()
     {
-        /** @var \Barryvdh\Debugbar\LaravelDebugbar $debugBar */
-        $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
-        $modelsCollector = $this->app->make(ModelsCollector::class);
-        $debugBar->addCollector($modelsCollector);
+        if (Config::get('debugbar.collectors.models', true)) {
+            /** @var \Barryvdh\Debugbar\LaravelDebugbar $debugBar */
+            $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
+            $modelsCollector = $this->app->make(ModelsCollector::class);
+            $debugBar->addCollector($modelsCollector);
+        }
     }
 
     /**

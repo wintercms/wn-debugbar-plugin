@@ -47,7 +47,6 @@ class BackendCollector extends DataCollector implements Renderable
         $filename = ltrim(str_replace(base_path(), '', $reflector->getFileName()), '/');
         $result['file'] = $filename . ':' . $reflector->getStartLine() . '-' . $reflector->getEndLine();
 
-
         return $result;
     }
 
