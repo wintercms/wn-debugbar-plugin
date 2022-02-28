@@ -35,7 +35,7 @@ class Plugin extends PluginBase
             'author'      => 'Winter CMS',
             'icon'        => 'icon-bug',
             'homepage'    => 'https://github.com/wintercms/wn-debugbar-plugin',
-            'replaces'    => 'RainLab.Debugbar'
+            'replaces'    => ['RainLab.Debugbar' => '<= 3.1.1'],
         ];
     }
 
