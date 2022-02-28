@@ -72,9 +72,9 @@ class Plugin extends PluginBase
         Event::listen('cms.page.beforeDisplay', function ($controller, $url, $page) {
             // Twig extensions
             $twig = $controller->getTwig();
-            if (!$twig->hasExtension(\Barryvdh\Debugbar\Twig\Extension\Debug::class)) {
-                $twig->addExtension(new \Barryvdh\Debugbar\Twig\Extension\Debug($this->app));
-                $twig->addExtension(new \Barryvdh\Debugbar\Twig\Extension\Stopwatch($this->app));
+            if (!$twig->hasExtension(\Winter\DebugBar\Twig\Extension\Debug::class)) {
+                $twig->addExtension(new \Winter\DebugBar\Twig\Extension\Debug($this->app));
+                $twig->addExtension(new \Winter\DebugBar\Twig\Extension\Stopwatch($this->app));
             }
         });
     }
@@ -103,12 +103,12 @@ class Plugin extends PluginBase
             'winter.debugbar.access_debugbar' => [
                 'tab' => 'winter.debugbar::lang.plugin.name',
                 'label' => 'winter.debugbar::lang.plugin.access_debugbar',
-                'roles' => UserRole::CODE_DEVELOPER,
+                'roles' => [UserRole::CODE_DEVELOPER],
             ],
             'winter.debugbar.access_stored_requests' => [
                 'tab' => 'winter.debugbar::lang.plugin.name',
                 'label' => 'winter.debugbar::lang.plugin.access_stored_requests',
-                'roles' => UserRole::CODE_DEVELOPER,
+                'roles' => [UserRole::CODE_DEVELOPER],
             ],
         ];
     }
