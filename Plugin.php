@@ -47,9 +47,6 @@ class Plugin extends PluginBase
         // Configure the debugbar
         Config::set('debugbar', Config::get('winter.debugbar::config'));
 
-        // Service provider
-        App::register(\Winter\Debugbar\Classes\ServiceProvider::class);
-
         // Register alias
         $alias = AliasLoader::getInstance();
         $alias->alias('Debugbar', '\Barryvdh\Debugbar\Facade');
@@ -90,6 +87,9 @@ class Plugin extends PluginBase
         CombineAssets::registerCallback(function ($combiner) {
             $combiner->registerBundle('$/winter/debugbar/assets/css/debugbar.less');
         });
+        
+        // Service provider
+        $this->app->register(\Winter\Debugbar\Classes\ServiceProvider::class);
     }
 
     /**
