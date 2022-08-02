@@ -1,6 +1,5 @@
 <?php namespace Winter\Debugbar;
 
-use App;
 use Event;
 use Config;
 use Backend\Models\UserRole;
@@ -52,16 +51,6 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        // Configure the debugbar
-        Config::set('debugbar', Config::get('winter.debugbar::config'));
-
-        // Service provider
-        App::register(\Winter\Debugbar\Classes\ServiceProvider::class);
-
-        // Register alias
-        $alias = AliasLoader::getInstance();
-        $alias->alias('Debugbar', Debugbar::class);
-
         // Register middleware
         if (Config::get('app.debugAjax', false)) {
             $this->app[HttpKernelContract::class]->pushMiddleware(\Winter\Debugbar\Middleware\InterpretsAjaxExceptions::class);
@@ -84,6 +73,16 @@ class Plugin extends PluginBase
      */
     public function register()
     {
+        // Configure the debugbar
+        Config::set('debugbar', Config::get('winter.debugbar::config'));
+
+        // Service provider
+        App::register(\Winter\Debugbar\Classes\ServiceProvider::class);
+
+        // Register alias
+        $alias = AliasLoader::getInstance();
+        $alias->alias('Debugbar', Debugbar::class);
+
         CombineAssets::registerCallback(function ($combiner) {
             $combiner->registerBundle('$/winter/debugbar/assets/less/debugbar.less');
         });
