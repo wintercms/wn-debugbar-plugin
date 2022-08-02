@@ -1,9 +1,7 @@
 <?php namespace Winter\Debugbar;
 
-use App;
 use Event;
 use Config;
-use BackendAuth;
 use Backend\Models\UserRole;
 use System\Classes\PluginBase;
 use System\Classes\CombineAssets;
@@ -44,16 +42,6 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        // Configure the debugbar
-        Config::set('debugbar', Config::get('winter.debugbar::config'));
-
-        // Service provider
-        App::register(\Winter\Debugbar\Classes\ServiceProvider::class);
-
-        // Register alias
-        $alias = AliasLoader::getInstance();
-        $alias->alias('Debugbar', '\Barryvdh\Debugbar\Facade');
-
         // Register middleware
         if (Config::get('app.debugAjax', false)) {
             $this->app['Illuminate\Contracts\Http\Kernel']->pushMiddleware('\Winter\Debugbar\Middleware\InterpretsAjaxExceptions');
@@ -80,13 +68,21 @@ class Plugin extends PluginBase
     }
 
     /**
-     * Register the
+     * Register the plugin
      */
     public function register()
     {
-        /*
-         * Register asset bundles
-         */
+        // Configure the debugbar
+        Config::set('debugbar', Config::get('winter.debugbar::config'));
+
+        // Register the debugbar serviceprovider
+        $this->app->register(\Winter\Debugbar\Classes\ServiceProvider::class);
+
+        // Register alias
+        $alias = AliasLoader::getInstance();
+        $alias->alias('Debugbar', '\Barryvdh\Debugbar\Facade');
+
+        // Register asset bundles
         CombineAssets::registerCallback(function ($combiner) {
             $combiner->registerBundle('$/winter/debugbar/assets/css/debugbar.less');
         });
