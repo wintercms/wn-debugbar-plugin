@@ -1,26 +1,30 @@
 <?php namespace Winter\Debugbar;
 
-use Event;
-use Config;
-use Backend\Models\UserRole;
 use Backend\Classes\Controller as BackendController;
+use Backend\Models\UserRole;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use Barryvdh\Debugbar\LaravelDebugbar;
+use Barryvdh\Debugbar\SymfonyHttpDriver;
 use Cms\Classes\Controller as CmsController;
 use Cms\Classes\Layout;
 use Cms\Classes\Page;
-use System\Classes\PluginBase;
+use Config;
+use Event;
+use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Session\SessionManager;
 use System\Classes\CombineAssets;
+use System\Classes\PluginBase;
+use Twig\Extension\ProfilerExtension;
+use Twig\Profiler\Profile;
+use Winter\Debugbar\Classes\WinterDebugbar;
 use Winter\Debugbar\Collectors\BackendCollector;
 use Winter\Debugbar\Collectors\CmsCollector;
 use Winter\Debugbar\Collectors\ComponentsCollector;
 use Winter\Debugbar\Collectors\ModelsCollector;
-use Illuminate\Foundation\AliasLoader;
-use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
-use Twig\Extension\ProfilerExtension;
-use Twig\Profiler\Profile;
 
 /**
- * Plugin Information File
+ * Winter.Debugbar Plugin
  */
 class Plugin extends PluginBase
 {
@@ -47,6 +51,40 @@ class Plugin extends PluginBase
     }
 
     /**
+     * Registers the plugin
+     */
+    public function register()
+    {
+        // Provide the winter.debugbar config under the debugbar namespace
+        Config::registerNamespaceAlias('winter.debugbar', 'debugbar');
+
+        // Register the service provider
+        $this->app->register(\Winter\Debugbar\Classes\ServiceProvider::class);
+
+        // Replace the LaravelDebugbar with the WinterDebugbar
+        $this->app->singleton(LaravelDebugbar::class, function ($app) {
+            $debugbar = new WinterDebugbar($app);
+
+            if ($app->bound(SessionManager::class)) {
+                $sessionManager = $app->make(SessionManager::class);
+                $httpDriver = new SymfonyHttpDriver($sessionManager);
+                $debugbar->setHttpDriver($httpDriver);
+            }
+
+            return $debugbar;
+        });
+
+        // Register alias
+        $alias = AliasLoader::getInstance();
+        $alias->alias('Debugbar', Debugbar::class);
+
+        // Register the asset bundle
+        CombineAssets::registerCallback(function ($combiner) {
+            $combiner->registerBundle('$/winter/debugbar/assets/less/debugbar.less');
+        });
+    }
+
+    /**
      * Boots service provider, Twig extensions, and alias facade, and injects collectors and resources.
      */
     public function boot()
@@ -56,8 +94,6 @@ class Plugin extends PluginBase
             $this->app[HttpKernelContract::class]->pushMiddleware(\Winter\Debugbar\Middleware\InterpretsAjaxExceptions::class);
         }
 
-        $this->registerResourceInjection();
-
         if ($this->app->runningInBackend()) {
             $this->addBackendCollectors();
         } else {
@@ -66,26 +102,6 @@ class Plugin extends PluginBase
         }
 
         $this->addGlobalCollectors();
-    }
-
-    /**
-     * Registers assets bundles
-     */
-    public function register()
-    {
-        // Configure the debugbar
-        Config::set('debugbar', Config::get('winter.debugbar::config'));
-
-        // Service provider
-        $this->app->register(\Winter\Debugbar\Classes\ServiceProvider::class);
-
-        // Register alias
-        $alias = AliasLoader::getInstance();
-        $alias->alias('Debugbar', Debugbar::class);
-
-        CombineAssets::registerCallback(function ($combiner) {
-            $combiner->registerBundle('$/winter/debugbar/assets/less/debugbar.less');
-        });
     }
 
     /**
@@ -178,51 +194,6 @@ class Plugin extends PluginBase
         } else {
             $debugBar->addCollector(new \DebugBar\Bridge\TwigProfileCollector($profile));
         }
-    }
-
-    /**
-     * Adds styling to the page
-     */
-    protected function registerResourceInjection()
-    {
-        // Add styling
-        $addResources = function ($controller) {
-            $renderer = Debugbar::getJavascriptRenderer();
-            [$css, $js] = $renderer->getAssets();
-
-            // Switch base Debugbar CSS out with our own
-            foreach ($css as $key => $file) {
-                if (str_ends_with($file, 'vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar.css')) {
-                    $css[$key] = __DIR__ . '/assets/css/debugbar.css';
-                    continue;
-                }
-                if (str_contains($file, 'vendor/barryvdh/laravel-debugbar/src/Resources/laravel-debugbar-dark-mode')) {
-                    unset($css[$key]);
-                    continue;
-                }
-            }
-
-            $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
-            if ($debugBar->isEnabled()) {
-                $controller->addCss($css);
-                $controller->addJs($js);
-            }
-        };
-
-        Event::listen('backend.page.beforeDisplay', $addResources, PHP_INT_MAX);
-        Event::listen('cms.page.beforeDisplay', $addResources, PHP_INT_MAX);
-
-        Event::listen('cms.page.postprocess', function ($controller, $url, $page, $dataHolder) {
-            $renderer = Debugbar::getJavascriptRenderer();
-            $widget = $renderer->render();
-            $pos = strripos($dataHolder->content, '</body>');
-
-            if ($pos !== false) {
-                $dataHolder->content = substr($dataHolder->content, 0, $pos) . $widget . substr($dataHolder->content, $pos);
-            } else {
-                $dataHolder->content .= $widget;
-            }
-        });
     }
 
     /**

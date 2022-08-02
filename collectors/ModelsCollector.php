@@ -1,8 +1,8 @@
 <?php namespace Winter\Debugbar\Collectors;
 
-use Winter\Storm\Database\Model;
-use Illuminate\Contracts\Events\Dispatcher;
 use Barryvdh\Debugbar\DataCollector\ModelsCollector as BaseModelsCollector;
+use Illuminate\Contracts\Events\Dispatcher;
+use Winter\Storm\Database\Model;
 
 class ModelsCollector extends BaseModelsCollector
 {

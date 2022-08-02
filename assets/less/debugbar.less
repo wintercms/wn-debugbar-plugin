@@ -18,7 +18,7 @@
 @debugbar-dark-border: #103141;
 @debugbar-dark-value-bg: #48b9d5;
 @debugbar-dark-value-border: #227f96;
-@debugbar-dark-value-text: #000;
+@debugbar-dark-value-text: #FFF;
 
 body {
     div.phpdebugbar {
@@ -92,10 +92,19 @@ body {
     }
 }
 
+/**
+ * Dark Theme - Currently disabled
+ * @TODO: Use Laravel Dark Mode as a base and just override the red accent colours
+ * -------------------------------------------------------------
 @media (prefers-color-scheme: dark) {
     body {
         div.phpdebugbar {
             background: @debugbar-dark-main-bg;
+        }
+
+        div.phpdebugbar,
+        div.phpdebugbar-header > div > * {
+            color: @debugbar-dark-value-text;
         }
 
         div.phpdebugbar-body {
@@ -165,3 +174,4 @@ body {
         }
     }
 }
+*/
