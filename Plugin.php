@@ -58,7 +58,7 @@ class Plugin extends PluginBase
 
         $this->registerResourceInjection();
 
-        if (App::runningInBackend()) {
+        if ($this->app->runningInBackend()) {
             $this->addBackendCollectors();
         } else {
             $this->registerCmsTwigExtensions();
@@ -77,7 +77,7 @@ class Plugin extends PluginBase
         Config::set('debugbar', Config::get('winter.debugbar::config'));
 
         // Service provider
-        App::register(\Winter\Debugbar\Classes\ServiceProvider::class);
+        $this->app->register(\Winter\Debugbar\Classes\ServiceProvider::class);
 
         // Register alias
         $alias = AliasLoader::getInstance();
