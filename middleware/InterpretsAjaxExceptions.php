@@ -1,13 +1,13 @@
 <?php namespace Winter\Debugbar\Middleware;
 
-use Request;
 use Closure;
-use Response;
 use Exception;
 use Illuminate\Foundation\Application;
-use Winter\Storm\Exception\ErrorHandler;
-use Winter\Storm\Exception\AjaxException;
+use Request;
+use Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Winter\Storm\Exception\AjaxException;
+use Winter\Storm\Exception\ErrorHandler;
 
 class InterpretsAjaxExceptions
 {

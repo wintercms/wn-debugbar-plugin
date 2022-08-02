@@ -1,10 +1,12 @@
 <?php namespace Winter\Debugbar\Classes;
 
-use Illuminate\Contracts\Http\Kernel;
 use Barryvdh\Debugbar\ServiceProvider as BaseServiceProvider;
-
+use Illuminate\Contracts\Http\Kernel;
 use Winter\Debugbar\Middleware\InjectDebugbar;
 
+/**
+ * ServiceProvider
+ */
 class ServiceProvider extends BaseServiceProvider
 {
     /**
