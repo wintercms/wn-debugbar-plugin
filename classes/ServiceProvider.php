@@ -17,7 +17,6 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerMiddleware($middleware)
     {
         $kernel = $this->app[Kernel::class];
-
         $kernel->pushMiddleware(InjectDebugbar::class);
     }
 }

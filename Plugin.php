@@ -35,7 +35,6 @@ class Plugin extends PluginBase
 
     /**
      * Returns information about this plugin.
-     *
      * @return array
      */
     public function pluginDetails()
@@ -46,7 +45,7 @@ class Plugin extends PluginBase
             'author'      => 'Winter CMS',
             'icon'        => 'icon-bug',
             'homepage'    => 'https://github.com/wintercms/wn-debugbar-plugin',
-            'replaces'    => ['RainLab.Debugbar' => '<= 3.2.0'],
+            'replaces'    => ['RainLab.Debugbar' => '<= 3.3.2'],
         ];
     }
 
@@ -89,11 +88,17 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
+        // Disabled by config, halt
+        if (Config::get('debugbar.enabled') === false) {
+            return;
+        }
+
         // Register middleware
         if (Config::get('app.debugAjax', false)) {
             $this->app[HttpKernelContract::class]->pushMiddleware(\Winter\Debugbar\Middleware\InterpretsAjaxExceptions::class);
         }
 
+        // Register custom collectors
         if ($this->app->runningInBackend()) {
             $this->addBackendCollectors();
         } else {
