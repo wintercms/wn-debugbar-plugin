@@ -27,6 +27,9 @@
         "composer/installers": "~1.0",
         "barryvdh/laravel-debugbar": "~3.0"
     },
+    "replace": {
+        "rainlab/debugbar-plugin": ">=1.0.5"
+    },
     "extra": {
         "installer-name": "debugbar",
         "laravel": {
