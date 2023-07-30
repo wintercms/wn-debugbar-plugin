@@ -52,7 +52,7 @@ div.phpdebugbar-widgets-exceptions .phpdebugbar-widgets-filename{margin-top:4px}
 div.phpdebugbar-widgets-exceptions li.phpdebugbar-widgets-list-item pre.phpdebugbar-widgets-file{border:1px solid #d2d2d2;border-left:2px solid #d2d2d2}
 div.phpdebugbar-widgets-exceptions li.phpdebugbar-widgets-list-item pre.phpdebugbar-widgets-file[style="display:block;"] ~ div{display:block}
 div.phpdebugbar pre.sf-dump{color:#000;outline:none;padding:0 !important}
-div.phpdebugbar-header{min-height:30px;line-height:20px;padding-left:39px}
+div.phpdebugbar-header{min-height:30px;line-height:20px}
 div.phpdebugbar-openhandler .phpdebugbar-openhandler-header{background-size:20px;padding:2px 0 3px 36px;background-position:9px 5px;border-radius:3px}
 div.phpdebugbar-openhandler .phpdebugbar-openhandler-header a{cursor:pointer}
 a.phpdebugbar-close-btn{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuM4zml1AAAADDSURBVDhPxZCxCsIwFEUzuGdwCvQD7BIIcehUXDqVfGM/wsG/iG4ifkzMlRuSPLo4eeFBue8c6Iv6b4wxW557Hs0KnWa3seqDxTiOyVqbhmF4UND4Rofdruyce3rvE6bIRSo9GOI1McbLPM/vVm4l7MAQr0kpHaQsJTDE+6zrepym6SVFdNgR69M+hBTLzWCI10gJvydvBkO8ZlmWayvhJnkzGOI1+fBTCOHWPkT7YNiBId4HizxnCKy+r81uX/otSn0A7dioI/vYX+8AAAAASUVORK5CYII=) no-repeat 9px 6px;color:#555;border-right:none}
