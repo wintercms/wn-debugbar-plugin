@@ -47,7 +47,7 @@ class InterpretsAjaxExceptions
             if (!Request::ajax()) {
                 throw $ex;
             }
-            $debugbar->addException($ex);
+            $debugbar->addThrowable($ex);
             $message = $ex instanceof AjaxException
                 ? $ex->getContents() : ErrorHandler::getDetailedMessage($ex);
 

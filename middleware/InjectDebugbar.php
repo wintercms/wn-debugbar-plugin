@@ -36,7 +36,12 @@ class InjectDebugbar extends BaseMiddleware
             $response = $this->handleException($request, $e);
         }
 
-        $user = BackendAuth::getUser();
+        // Database table might not exist yet
+        try {
+            $user = BackendAuth::getUser();
+        } catch (Throwable $e) {
+            $user = null;
+        }
 
         if ((!$user || !$user->hasAccess('winter.debugbar.access_stored_requests')) &&
             !Config::get('winter.debugbar::store_all_requests', false)) {
