@@ -1,4 +1,4 @@
-# DebugBar Plugin
+# Winter.DebugBar Plugin
 
 Easily see what's going on under the hood of your Winter CMS applications. Integrates [Laravel DebugBar](https://github.com/barryvdh/laravel-debugbar) / [PHP DebugBar](http://phpdebugbar.com/) into Winter CMS.
 
