@@ -15,3 +15,4 @@
 "4.0.0": "Switched vendor to Winter from RainLab"
 "4.0.1": "Added Russian translation, added support for Twig v3 / Winter v1.2 / Laravel 9"
 "4.0.2": "Adds new collectors for Twig, CMS and Backend. Updated styling to match Winter branding"
+"4.0.3": "Improved compatibility with latest version of dependencies"
