@@ -115,6 +115,9 @@ class Plugin extends PluginBase
     public function addGlobalCollectors()
     {
         if (Config::get('debugbar.collectors.models', true)) {
+            // Disable original models collector because it will be replaced
+            Config::set('debugbar.collectors.models', false);
+
             /** @var \Barryvdh\Debugbar\LaravelDebugbar $debugBar */
             $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
             $modelsCollector = $this->app->make(ModelsCollector::class);
