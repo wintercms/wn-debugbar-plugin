@@ -198,7 +198,8 @@ class Plugin extends PluginBase
         });
 
         if (class_exists(\DebugBar\Bridge\NamespacedTwigProfileCollector::class)) {
-            $debugBar->addCollector(new \DebugBar\Bridge\NamespacedTwigProfileCollector($profile));
+            $twig = $this->app->make('twig.environment.cms');
+            $debugBar->addCollector(new \DebugBar\Bridge\NamespacedTwigProfileCollector($profile, $twig));
         } else {
             $debugBar->addCollector(new \DebugBar\Bridge\TwigProfileCollector($profile));
         }
