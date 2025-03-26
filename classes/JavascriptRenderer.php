@@ -13,13 +13,6 @@ class JavascriptRenderer extends BaseJavascriptRenderer
     {
         parent::__construct($debugBar, $baseUrl, $basePath);
 
-        // Remove Laravel Debugbar's default styling
-        foreach ($this->cssFiles as $key => $file) {
-            if (Str::startsWith($key, 'laravel')) {
-                unset($this->cssFiles[$key]);
-            }
-        }
-
         // Add Winter's styling
         $this->cssFiles['winter'] = __DIR__ . '/../assets/css/debugbar.css';
     }
