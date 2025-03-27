@@ -1,51 +1,109 @@
 div.phpdebugbar,
 div.phpdebugbar-openhandler {
 
-    --winter-debugbar-50: #eaf7fa;
-    --winter-debugbar-100: #d5eff6;
-    --winter-debugbar-200: #a8deeb;
-    --winter-debugbar-300: #7ecee2;
-    --winter-debugbar-400: #50bcd7;
-    --winter-debugbar-500: #2da7c7;
-    --winter-debugbar-600: #24869e;
-    --winter-debugbar-700: #1b6679;
-    --winter-debugbar-800: #12434f;
-    --winter-debugbar-900: #09232a;
-    --winter-debugbar-950: #051215;
+    --winter-primary-50: #e8edef;
+    --winter-primary-100: #d1dbe0;
+    --winter-primary-200: #a3b6c0;
+    --winter-primary-300: #7492a1;
+    --winter-primary-400: #466d81;
+    --winter-primary-500: #184962;
+    --winter-primary-600: #133a4e;
+    --winter-primary-700: #0e2c3b;
+    --winter-primary-800: #0a1d27;
+    --winter-primary-900: #050f14;
 
-    --winter-logo-color: var(--winter-debugbar-500);
+    --winter-neutral-50: #f8fafc;
+    --winter-neutral-100: #f1f5f9;
+    --winter-neutral-200: #e2e8f0;
+    --winter-neutral-300: #cbd5e1;
+    --winter-neutral-400: #94a3b8;
+    --winter-neutral-500: #64748b;
+    --winter-neutral-600: #475569;
+    --winter-neutral-700: #334155;
+    --winter-neutral-800: #1e293b;
+    --winter-neutral-900: #0f172a;
+    --winter-neutral-900: #0f172a;
+    --winter-neutral-950: #0b0c0f;
 
-    --debugbar-red-vivid: var(--winter-debugbar-500);
+    --winter-accent-50: #eaf6f9;
+    --winter-accent-100: #d5edf4;
+    --winter-accent-200: #abdce9;
+    --winter-accent-300: #81cadd;
+    --winter-accent-400: #57b9d2;
+    --winter-accent-500: #2da7c7;
+    --winter-accent-600: #24869f;
+    --winter-accent-700: #1b6477;
+    --winter-accent-800: #124350;
+    --winter-accent-900: #092128;
 
-    --debugbar-badge: var(--winter-debugbar-700);
-    --debugbar-badge-text: var(--winter-debugbar-100);
+    --winter-negative-50: #fbefea;
+    --winter-negative-100: #f7dfd4;
+    --winter-negative-200: #efbea9;
+    --winter-negative-300: #e69e7f;
+    --winter-negative-400: #de7d54;
+    --winter-negative-500: #d65d29;
+    --winter-negative-600: #ab4a21;
+    --winter-negative-700: #803819;
+    --winter-negative-800: #562510;
+    --winter-negative-900: #2b1308;
+
+    --winter-logo-color: var(--winter-accent-500);
+    --debugbar-red-vivid: var(--winter-accent-600);
+    --debugbar-accent: var(--winter-accent-300);
+
+    --debugbar-background: var(--winter-neutral-50);
+    --debugbar-background-alt: var(--winter-neutral-100);
+    --debugbar-text: var(--winter-neutral-800);
+    --debugbar-text-muted: var(--winter-neutral-500);
+    --debugbar-border: var(--winter-neutral-300);
+
+    --debugbar-header:var(--winter-neutral-200);
+    --debugbar-header-text: var(--winter-neutral-800);
+    --debugbar-header-border: var(--winter-neutral-300);
+    --debugbar-header-hover: var(--winter-neutral-700);
+
+    --debugbar-active: var(--winter-accent-800);
+    --debugbar-active-text: var(--winter-accent-50);
+
+    --debugbar-icons: var(--winter-neutral-800);
+    --debugbar-badge: var(--winter-accent-500);
+    --debugbar-badge-text: #ffffff;
+
+    --debugbar-badge-active: var(--winter-neutral-500);
+    --debugbar-badge-active-text: #ffffff;
+
+    --debugbar-link: var(--winter-accent-600);
+    --debugbar-hover: var(--winter-accent-800);
+    --debugbar-hover-bg: var(--winter-neutral-600);
 
     &[data-theme="dark"] {
+        --debugbar-red-vivid: var(--winter-primary-600);
+        --debugbar-accent: var(--winter-accent-300);
 
-        --winter-logo-color: var(--winter-debugbar-400);
-
-        --debugbar-red-vivid: var(--winter-debugbar-600);
-
-        --debugbar-badge: var(--winter-debugbar-300);
-        --debugbar-badge-text: var(--winter-debugbar-900);
-
-        --debugbar-background: var(--winter-debugbar-800);
-        --debugbar-background-alt: var(--winter-debugbar-900);
-        --debugbar-text: var(--winter-debugbar-100);
-        --debugbar-text-muted: var(--winter-debugbar-600);
-        --debugbar-border: var(--winter-debugbar-600);
-
-        --debugbar-header:var(--winter-debugbar-900);
-        --debugbar-header-text: var(--winter-debugbar-200);
-        --debugbar-header-border: var(--winter-debugbar-800);
-        --debugbar-header-hover: var(--winter-debugbar-700);
-
-        --debugbar-active: var(--winter-debugbar-800);
-        --debugbar-active-text: var(--winter-debugbar-100);
-
-        --debugbar-link: var(--winter-debugbar-300);
-        --debugbar-hover: var(--winter-debugbar-100);
-        --debugbar-hover-bg: var(--winter-debugbar-700);
+        --debugbar-background: var(--winter-neutral-950);
+        --debugbar-background-alt: var(--winter-neutral-900);
+        --debugbar-text: var(--winter-neutral-50);
+        --debugbar-text-muted: var(--winter-neutral-200);
+        --debugbar-border: var(--winter-neutral-600);
+    
+        --debugbar-header:var(--winter-neutral-900);
+        --debugbar-header-text: var(--winter-neutral-50);
+        --debugbar-header-border: var(--winter-neutral-700);
+        --debugbar-header-hover: var(--winter-neutral-700);
+    
+        --debugbar-active: var(--winter-accent-800);
+        --debugbar-active-text: var(--winter-accent-50);
+    
+        --debugbar-icons: var(--winter-neutral-100);
+        --debugbar-badge: var(--winter-accent-500);
+        --debugbar-badge-text: #ffffff;
+    
+        --debugbar-badge-active: var(--winter-neutral-500);
+        --debugbar-badge-active-text: #ffffff;
+    
+        --debugbar-link: var(--winter-accent-600);
+        --debugbar-hover: var(--winter-accent-800);
+        --debugbar-hover-bg: var(--winter-neutral-600);
     }
 
     .phpdebugbar-openhandler-header,
