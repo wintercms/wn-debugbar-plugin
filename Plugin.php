@@ -55,7 +55,7 @@ class Plugin extends PluginBase
     public function register()
     {
         // Provide the winter.debugbar config under the debugbar namespace
-        Config::registerNamespaceAlias('winter.debugbar', 'debugbar');
+        Config::set('debugbar', Config::get('winter.debugbar::config'));
 
         // Register the service provider
         $this->app->register(\Winter\Debugbar\Classes\ServiceProvider::class);
