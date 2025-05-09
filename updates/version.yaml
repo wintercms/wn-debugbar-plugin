@@ -18,3 +18,4 @@
 "4.0.3": "Improved compatibility with latest version of dependencies"
 "4.0.4": "Align styling with barryvdh/laravel-debugbar v3.15.x dependency"
 "4.0.5": "Styling / branding improvements"
+"4.0.6": "Fix config overriding"
