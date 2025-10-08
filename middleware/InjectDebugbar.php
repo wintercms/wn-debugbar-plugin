@@ -1,13 +1,13 @@
-<?php namespace Winter\Debugbar\Middleware;
+<?php
 
-use BackendAuth;
+namespace Winter\Debugbar\Middleware;
+
+use Backend\Facades\BackendAuth;
 use Barryvdh\Debugbar\Middleware\InjectDebugbar as BaseMiddleware;
 use Closure;
-use Config;
-use Error;
-use Exception;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\HttpFoundation\Request;
+use Throwable;
+use Winter\Storm\Support\Facades\Config;
 
 class InjectDebugbar extends BaseMiddleware
 {
@@ -29,10 +29,7 @@ class InjectDebugbar extends BaseMiddleware
         try {
             /** @var \Illuminate\Http\Response $response */
             $response = $next($request);
-        } catch (Exception $e) {
-            $response = $this->handleException($request, $e);
-        } catch (Error $error) {
-            $e = new FatalThrowableError($error);
+        } catch (Throwable $e) {
             $response = $this->handleException($request, $e);
         }
 
