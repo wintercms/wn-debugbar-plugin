@@ -38,7 +38,7 @@ class InterpretsAjaxExceptions
      */
     public function handle($request, Closure $next)
     {
-        /** @var \Barryvdh\Debugbar\LaravelDebugbar $debugbar */
+        /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $debugbar */
         $debugbar = $this->app['debugbar'];
 
         try {

@@ -1,21 +1,28 @@
 <?php namespace Winter\Debugbar\Classes;
 
-use Barryvdh\Debugbar\LaravelDebugbar;
+use DebugBar\JavascriptRenderer;
+use Fruitcake\LaravelDebugbar\LaravelDebugbar;
 
 class WinterDebugbar extends LaravelDebugbar
 {
     /**
-     * Returns a winterized JavascriptRenderer for this instance
+     * Returns the JavascriptRenderer for this instance with Winter's styling applied.
      *
-     * @param string $baseUrl
-     * @param string $basePathng
-     * @return JavascriptRenderer
+     * Laravel Debugbar 4 performs the renderer configuration inside getJavascriptRenderer(),
+     * so we defer to the parent to build and cache the renderer and then register Winter's
+     * stylesheet via the renderer's asset API (the renderer is cached, so the CSS is only
+     * added the first time it is built).
      */
-    public function getJavascriptRenderer($baseUrl = null, $basePath = null)
+    public function getJavascriptRenderer(?string $baseUrl = null, ?string $basePath = null): JavascriptRenderer
     {
-        if ($this->jsRenderer === null) {
-            $this->jsRenderer = new JavascriptRenderer($this, $baseUrl, $basePath);
+        $alreadyBuilt = $this->jsRenderer !== null;
+
+        $renderer = parent::getJavascriptRenderer($baseUrl, $basePath);
+
+        if (!$alreadyBuilt) {
+            $renderer->addAssets(cssFiles: ['debugbar.css'], basePath: __DIR__ . '/../assets/css');
         }
-        return $this->jsRenderer;
+
+        return $renderer;
     }
 }

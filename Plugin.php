@@ -2,9 +2,8 @@
 
 use Backend\Classes\Controller as BackendController;
 use Backend\Models\UserRole;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Barryvdh\Debugbar\LaravelDebugbar;
-use Barryvdh\Debugbar\SymfonyHttpDriver;
+use Fruitcake\LaravelDebugbar\Facades\Debugbar;
+use Fruitcake\LaravelDebugbar\LaravelDebugbar;
 use Cms\Classes\Controller as CmsController;
 use Cms\Classes\Layout;
 use Cms\Classes\Page;
@@ -12,7 +11,6 @@ use Config;
 use Event;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Session\SessionManager;
 use System\Classes\CombineAssets;
 use System\Classes\PluginBase;
 use Twig\Extension\ProfilerExtension;
@@ -32,6 +30,11 @@ class Plugin extends PluginBase
      * @var boolean Determine if this plugin should have elevated privileges.
      */
     public $elevated = true;
+
+    /**
+     * @var bool Whether Winter's models collector replaces Laravel Debugbar's.
+     */
+    protected $useWinterModelsCollector = false;
 
     /**
      * Returns information about this plugin.
@@ -57,20 +60,29 @@ class Plugin extends PluginBase
         // Provide the winter.debugbar config under the debugbar namespace
         Config::set('debugbar', Config::get('winter.debugbar::config'));
 
+        /*
+         * Laravel Debugbar 4 registers its collectors when its service provider boots, before this
+         * plugin boots, so turn off the collectors that Winter replaces here.
+         */
+        if (Config::get('debugbar.collectors.models', true)) {
+            $this->useWinterModelsCollector = true;
+            Config::set('debugbar.collectors.models', false);
+        }
+        if (!$this->app->runningInBackend() && Config::get('debugbar.collectors.cms', true)) {
+            // The CMS collector presents the route information instead
+            Config::set('debugbar.collectors.route', false);
+        }
+
         // Register the service provider
         $this->app->register(\Winter\Debugbar\Classes\ServiceProvider::class);
 
         // Replace the LaravelDebugbar with the WinterDebugbar
+        // Laravel Debugbar 4 configures its own HTTP driver (LaravelHttpDriver), so we only
+        // need to swap in Winter's Debugbar subclass for the custom JavascriptRenderer styling.
+        // Resolve through the container so the constructor (Application $app, Request $request)
+        // dependencies are injected (Laravel Debugbar 4 requires both).
         $this->app->singleton(LaravelDebugbar::class, function ($app) {
-            $debugbar = new WinterDebugbar($app);
-
-            if ($app->bound(SessionManager::class)) {
-                $sessionManager = $app->make(SessionManager::class);
-                $httpDriver = new SymfonyHttpDriver($sessionManager);
-                $debugbar->setHttpDriver($httpDriver);
-            }
-
-            return $debugbar;
+            return $app->make(WinterDebugbar::class);
         });
 
         // Register alias
@@ -114,14 +126,13 @@ class Plugin extends PluginBase
      */
     public function addGlobalCollectors()
     {
-        if (Config::get('debugbar.collectors.models', true)) {
-            // Disable original models collector because it will be replaced
-            Config::set('debugbar.collectors.models', false);
-
-            /** @var \Barryvdh\Debugbar\LaravelDebugbar $debugBar */
-            $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
+        if ($this->useWinterModelsCollector) {
+            /** @var LaravelDebugbar $debugBar */
+            $debugBar = $this->app->make(LaravelDebugbar::class);
             $modelsCollector = $this->app->make(ModelsCollector::class);
-            $debugBar->addCollector($modelsCollector);
+            if (!$debugBar->hasCollector($modelsCollector->getName())) {
+                $debugBar->addCollector($modelsCollector);
+            }
         }
     }
 
@@ -130,13 +141,10 @@ class Plugin extends PluginBase
      */
     public function addFrontendCollectors()
     {
-        /** @var \Barryvdh\Debugbar\LaravelDebugbar $debugBar */
-        $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
+        /** @var LaravelDebugbar $debugBar */
+        $debugBar = $this->app->make(LaravelDebugbar::class);
 
         if (Config::get('debugbar.collectors.cms', true)) {
-            // Disable route collector as the CMS collector presents this info instead
-            Config::set('debugbar.collectors.route', false);
-
             Event::listen('cms.page.beforeDisplay', function (CmsController $controller, $url, ?Page $page) use ($debugBar) {
                 if ($page) {
                     $collector = new CmsCollector($controller, $url, $page);
@@ -164,8 +172,8 @@ class Plugin extends PluginBase
      */
     public function addBackendCollectors()
     {
-        /** @var \Barryvdh\Debugbar\LaravelDebugbar $debugBar */
-        $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
+        /** @var LaravelDebugbar $debugBar */
+        $debugBar = $this->app->make(LaravelDebugbar::class);
 
         if (Config::get('debugbar.collectors.backend', true)) {
             Event::listen('backend.page.beforeDisplay', function (BackendController $controller, $action, array $params) use ($debugBar) {
@@ -183,7 +191,7 @@ class Plugin extends PluginBase
     protected function registerCmsTwigExtensions()
     {
         $profile = new Profile;
-        $debugBar = $this->app->make(\Barryvdh\Debugbar\LaravelDebugbar::class);
+        $debugBar = $this->app->make(LaravelDebugbar::class);
 
         Event::listen('cms.page.beforeDisplay', function ($controller, $url, $page) use ($profile, $debugBar) {
             $twig = $controller->getTwig();
@@ -197,9 +205,11 @@ class Plugin extends PluginBase
             }
         });
 
+        // php-debugbar 2.x (shipped with Laravel Debugbar 4) no longer bundles a Twig profile
+        // collector, so only register one when the bridge class is actually available.
         if (class_exists(\DebugBar\Bridge\NamespacedTwigProfileCollector::class)) {
             $debugBar->addCollector(new \DebugBar\Bridge\NamespacedTwigProfileCollector($profile));
-        } else {
+        } elseif (class_exists(\DebugBar\Bridge\TwigProfileCollector::class)) {
             $debugBar->addCollector(new \DebugBar\Bridge\TwigProfileCollector($profile));
         }
     }

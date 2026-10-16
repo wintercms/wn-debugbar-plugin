@@ -28,17 +28,17 @@ class ComponentsCollector extends DataCollector implements Renderable
     /**
      * {@inheritDoc}
      */
-    public function collect()
+    public function collect(): array
     {
         /** @var ComponentBase[]|object $components */
         $components = [];
 
         foreach ($this->layout->components as $alias => $componentObj) {
-            $components[$alias] = $this->formatVar($this->makeComponentDetails($componentObj));
+            $components[$alias] = $this->getDataFormatter()->formatVar($this->makeComponentDetails($componentObj));
         }
 
         foreach ($this->page->components as $alias => $componentObj) {
-            $components[$alias] = $this->formatVar($this->makeComponentDetails($componentObj));
+            $components[$alias] = $this->getDataFormatter()->formatVar($this->makeComponentDetails($componentObj));
         }
 
         return $components;
@@ -58,7 +58,7 @@ class ComponentsCollector extends DataCollector implements Renderable
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'components';
     }
@@ -66,7 +66,7 @@ class ComponentsCollector extends DataCollector implements Renderable
     /**
      * {@inheritDoc}
      */
-    public function getWidgets()
+    public function getWidgets(): array
     {
         return [
             'components' => [

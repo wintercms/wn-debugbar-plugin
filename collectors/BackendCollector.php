@@ -25,7 +25,7 @@ class BackendCollector extends DataCollector implements Renderable
     /**
      * {@inheritDoc}
      */
-    public function collect()
+    public function collect(): array
     {
         $ajaxHandler = $this->controller->getAjaxHandler();
 
@@ -100,7 +100,7 @@ class BackendCollector extends DataCollector implements Renderable
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'backend';
     }
@@ -108,7 +108,7 @@ class BackendCollector extends DataCollector implements Renderable
     /**
      * {@inheritDoc}
      */
-    public function getWidgets()
+    public function getWidgets(): array
     {
         return [
             'route' => [

@@ -26,7 +26,7 @@ class CmsCollector extends DataCollector implements Renderable
     /**
      * {@inheritDoc}
      */
-    public function collect()
+    public function collect(): array
     {
         $ajaxHandler = $this->controller->getAjaxHandler();
 
@@ -47,7 +47,7 @@ class CmsCollector extends DataCollector implements Renderable
         }
 
         foreach ($this->page->toArray() as $key => $value) {
-            $result[$key] = is_scalar($value) ? $value : $this->formatVar($value);
+            $result[$key] = is_scalar($value) ? $value : $this->getDataFormatter()->formatVar($value);
         }
 
         return $result;
@@ -103,7 +103,7 @@ class CmsCollector extends DataCollector implements Renderable
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'cms';
     }
@@ -111,7 +111,7 @@ class CmsCollector extends DataCollector implements Renderable
     /**
      * {@inheritDoc}
      */
-    public function getWidgets()
+    public function getWidgets(): array
     {
         return [
             'route' => [

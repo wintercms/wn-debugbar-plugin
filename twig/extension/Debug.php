@@ -13,7 +13,7 @@ use Twig\TwigFunction as TwigSimpleFunction;
 class Debug extends TwigExtension
 {
     /**
-     * @var \Barryvdh\Debugbar\LaravelDebugbar
+     * @var \Fruitcake\LaravelDebugbar\LaravelDebugbar
      */
     protected $debugbar;
 
